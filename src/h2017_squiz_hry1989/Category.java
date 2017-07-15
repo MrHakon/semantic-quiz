@@ -40,7 +40,6 @@ public class Category {
 	boolean answer = false;
 	int actualAnswer;
 	int userAnswer;
-	//String brukeSvar;
 	static Random randomGen = new Random();
 	
 	int sparqlLimit = 10;

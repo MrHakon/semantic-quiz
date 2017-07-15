@@ -17,9 +17,6 @@ public class MainClass {
 		int sum = 0;
 		int score = 0;
 		
-		// instances of other classes
-		// GeographyClass geoQuery = new GeographyClass();
-		
 		// random number generator to mix up the questions
 		Random random = new Random();
 		

@@ -13,6 +13,7 @@ Recent improvements:
 - Improved scorings system:
 	Rather than right or wrong, it's now based on points. 10 points for each correct answer, and 5 points for each correct answer where hints were requested.
 - It's now possible to add functionality to skip a question if there isn't enough data, without it counting as an attempt by the user.
+- Switched from boolean based return values to integer-based for more variety.
 
 Update plans:
 - Implement a global hint-system

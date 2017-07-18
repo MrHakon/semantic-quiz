@@ -16,6 +16,7 @@ public class MainClass {
 		int counter = 0;
 		int sum = 0;
 		int score = 0;
+		int pointsystem = 0;
 		
 		// random number generator to mix up the questions
 		Random random = new Random();
@@ -33,15 +34,20 @@ public class MainClass {
 		// picks a random category and runs as long as needed
 		while (!donePlaying) {
 			userChoice = random.nextInt(3) + 1;
-			boolean result = false;
+			int result = 0;
 			
 			switch (1) {
 			case 1:
 				Geography obj = new Geography();
 				result = obj.quizGeography();
 				
-				if (result) {
+				if (result == 1) {
 					score = score + 1;
+					pointsystem = pointsystem + 10;
+				}
+				else if (result == 2) {
+					score = score + 1;
+					pointsystem = pointsystem + 5;
 				}
 				numOfQuestions = numOfQuestions + 1;
 				System.out.println("You have answered " + score + " out of " + numOfQuestions + " questions correctly");
@@ -50,8 +56,10 @@ public class MainClass {
 				
 			case 2:
 				System.out.println("Category two");
-				result = false;
-				if (result) {
+				
+				result = 0;
+				// insert obj.quiz-method here
+				if (result == 1) {
 					score = score + 1;
 				}
 				numOfQuestions = numOfQuestions + 1;
@@ -61,8 +69,9 @@ public class MainClass {
 				
 			case 3:
 				System.out.println("Category three");
-				result = true;
-				if (result) {
+				result = 0;
+				// insert obj.quiz-method here
+				if (result == 1) {
 					score = score + 1;
 				}
 				numOfQuestions = numOfQuestions + 1;
@@ -77,8 +86,8 @@ public class MainClass {
 			
 			if (counter == 0) {
 				donePlaying = true;
-				System.out.println("The quiz is over!");
-				System.out.println("You got " + score + " correct, out of " + numOfQuestions + " questions");
+				System.out.println("\nThe quiz is over!");
+				System.out.println("You got a total of " + pointsystem + " points out of " + numOfQuestions*10 + " possible points!");
 				if (score > sum) {
 					System.out.println("Well done!");
 				}

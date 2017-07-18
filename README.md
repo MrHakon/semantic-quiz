@@ -14,6 +14,6 @@ Update plans:
 	Right now, the quiz-method returns a boolean value, used to increase the score counter. Sometimes
 	there isn't enough data to construct a question, and this should result in a new question, rather than
 	count as an attempt.
-- Implement at global hint-system
+- Implement a global hint-system
 - Implement more categories (requires the first category to work more fluently)
 - Try to create some sort of GUI

@@ -12,7 +12,7 @@ public class Geography extends Category {
 		System.out.println(generateFeedback("correct"));
 	}
 
-	public boolean quizGeography() throws JsonGenerationException, IOException {
+	public int quizGeography() throws JsonGenerationException, IOException {
 		switch (randomInt(1, 2)) {
 		case 1:
 			// the number of results return by the query
@@ -47,17 +47,17 @@ public class Geography extends Category {
 
 			List<Map> cityList = sparqlList(cityQ, dbPediaService, prefix);
 
-			if (generateQuestion(cityList, "city", 1)) {
-				return true;
+			if (generateQuestion(cityList, "city", 1) == 1) {
+				return 1;
 			} else {
-				return false;
+				return 0;
 			}
 
 		default:
 			System.out.println("");
 			break;
 		}
-		return false;
+		return 0;
 	}
 
 	/**
@@ -72,13 +72,14 @@ public class Geography extends Category {
 	 *            An integer that chooses the question to generate (can be fixed or
 	 *            random)
 	 * 
-	 * @return A boolean, depending on the user's answer
+	 * @return An int, depending on the user's answer: correct = 1, wrong = 0, error =-1, if
+	 * hints are used and the answer is correct: 2
 	 */
-	public static boolean generateQuestion(List<Map> dataList, String question, int chosenQ) {
+	public static int generateQuestion(List<Map> dataList, String question, int chosenQ) {
 		// checks if the datalist has more than one element
 		if (dataList.size() < 2) {
 			System.out.println("Not enough data to generate question.\nTry something else!");
-			return false;
+			return -1;
 		}
 
 		String userA = "";
@@ -135,13 +136,13 @@ public class Geography extends Category {
 				// checks if the user answered correctly
 				if (userA.toLowerCase().equals(correctA.toLowerCase()) || userA.equals(correctNum)) {
 					System.out.println(generateFeedback("correct"));
-					return true;
+					return 1;
 				} else if (correctNum == "0") {
 					System.out.println("Turns out there's no correct answer");
-					return false;
+					return -1;
 				} else {
 					System.out.println(generateFeedback("wrong"));
-					return false;
+					return 0;
 				}
 
 			case 2:
@@ -179,10 +180,10 @@ public class Geography extends Category {
 					System.out.println(generateFeedback("correct"));
 					System.out.println(alt0 + " has a population density of " + alt0Comp + "\nWhile " + alt1
 							+ " has a population density of " + alt1Comp + "\n\n");
-					return true;
+					return 1;
 				} else {
 					System.out.println(generateFeedback("wrong"));
-					return false;
+					return 0;
 				}
 
 			default:
@@ -192,6 +193,7 @@ public class Geography extends Category {
 		} else if (question.equals("city")) {
 			switch (chosenQ) {
 			case 1:
+				boolean hint = false;
 				alt0 = cleanUp(dataList.get(randNums[0]).get("name").toString());
 				alt1 = cleanUp(dataList.get(randNums[1]).get("name").toString());
 				alt2 = cleanUp(dataList.get(randNums[2]).get("name").toString());
@@ -230,6 +232,7 @@ public class Geography extends Category {
 				} else if (userA.equals("4") || userA.equals(alt3)) {
 					userChoice = alt3Int;
 				} else if (userA.equals("9")) {
+					hint = true;
 					System.out.println("The population in ascending order: ");
 					int[] orderByPopulation = new int[] {
 							cleanUpInt(dataList.get(randNums[0]).get("population").toString()),
@@ -260,7 +263,10 @@ public class Geography extends Category {
 					System.out.println(alt1 + ": " + alt1Int);
 					System.out.println(alt2 + ": " + alt2Int);
 					System.out.println(alt3 + ": " + alt3Int);
-					return true;
+					if (hint) {
+						return 2;
+					}
+					return 1;
 				} else {
 					System.out.println(generateFeedback("wrong"));
 					System.out.println("The actual answer is: ");
@@ -269,7 +275,7 @@ public class Geography extends Category {
 					System.out.println(alt2 + ": " + alt2Int);
 					System.out.println(alt3 + ": " + alt3Int + "\n");
 
-					return false;
+					return 0;
 				}
 
 			default:
@@ -278,7 +284,7 @@ public class Geography extends Category {
 			}
 
 		}
-		return false;
+		return 0;
 	}
 
 }

@@ -38,8 +38,8 @@ public class MainClass {
 			
 			switch (1) {
 			case 1:
-				Geography obj = new Geography();
-				result = obj.quizGeography();
+				Geography geographyObj = new Geography();
+				result = geographyObj.quizGeography();
 				
 				if (result == 1) {
 					score = score + 1;
@@ -56,11 +56,17 @@ public class MainClass {
 				
 			case 2:
 				System.out.println("Category two");
+				Nature natureObj = new Nature();
+				result = natureObj.quizNature();
 				
-				result = 0;
 				// insert obj.quiz-method here
 				if (result == 1) {
 					score = score + 1;
+					pointsystem = pointsystem + 10;
+				}
+				else if (result == 2) {
+					score = score + 1;
+					pointsystem = pointsystem + 5;
 				}
 				numOfQuestions = numOfQuestions + 1;
 				System.out.println("You have answered " + score + " out of " + numOfQuestions + " questions correctly");

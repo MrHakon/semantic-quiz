@@ -16,3 +16,13 @@ LIMIT 20
 
 ______
 
+Finds mammals (Offset can be random):
+6115 results
+
+PREFIX umbel-rc: <http://umbel.org/umbel/rc/>
+
+SELECT ?name WHERE {
+?name rdf:type umbel-rc:Mammal .
+}
+OFFSET 5
+LIMIT 20

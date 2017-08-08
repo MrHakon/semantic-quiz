@@ -35,7 +35,8 @@ public class Category {
 			+ "PREFIX : <http://dbpedia.org/resource/>" + "PREFIX dbpedia2: <http://dbpedia.org/property/>"
 			+ "PREFIX dbpedia: <http://dbpedia.org/>" + "PREFIX dbo: <http://dbpedia.org/ontology/>"
 			+ "PREFIX dbp: <http://dbpedia.org/property/>" + "PREFIX dbc: <http://dbpedia.org/resource/Category:>" 
-			+ "PREFIX dct: <http://purl.org/dc/terms/>" + "PREFIX dbr: <http://dbpedia.org/resource/>";
+			+ "PREFIX dct: <http://purl.org/dc/terms/>" + "PREFIX dbr: <http://dbpedia.org/resource/>"
+			+ "PREFIX umbel-rc: <http://umbel.org/umbel/rc/>";
 	
 	boolean answer = false;
 	int actualAnswer;

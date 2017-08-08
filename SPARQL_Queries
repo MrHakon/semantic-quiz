@@ -1,0 +1,18 @@
+SPARQL-queries
+
+DbPedia-queries:
+
+Finds name of a mountain, the elevation of that mountain and the name of the person
+whom first climbed it (descending order - height can be set to random):
+
+SELECT DISTINCT ?mountain ?elevation ?firstAscent WHERE {
+?mountain a dbo:Mountain .
+?mountain dbo:elevation ?elevation .
+?mountain dbo:firstAscentYear ?firstAscent .
+FILTER (?elevation < 8999)
+}
+ORDER BY desc(?elevation)
+LIMIT 20
+
+______
+

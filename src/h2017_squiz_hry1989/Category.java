@@ -20,7 +20,7 @@ import org.apache.jena.query.ResultSet;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 
-public class Category {
+abstract public class Category {
 	static Scanner scanner = new Scanner(System.in);
 	
 	// sparql-endpoints to run queries against

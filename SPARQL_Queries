@@ -26,3 +26,13 @@ SELECT ?name WHERE {
 }
 OFFSET 5
 LIMIT 20
+
+Also: http://dbpedia.org/ontology/Animal
+
+______
+Counting instances:
+PREFIX dbo: <http://dbpedia.org/ontology/>
+
+SELECT DISTINCT (COUNT(?name) AS ?count) WHERE {
+	?name rdf:type dbo:Reptile .
+}

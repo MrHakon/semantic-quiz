@@ -36,7 +36,7 @@ public class MainClass {
 			userChoice = random.nextInt(3) + 1;
 			int result = 0;
 			
-			switch (1) {
+			switch (2) {
 			case 1:
 				Geography geographyObj = new Geography();
 				result = geographyObj.quizGeography();
@@ -55,7 +55,7 @@ public class MainClass {
 				break;
 				
 			case 2:
-				System.out.println("Category two");
+				System.out.println("Category two: Nature");
 				Nature natureObj = new Nature();
 				result = natureObj.quizNature();
 				

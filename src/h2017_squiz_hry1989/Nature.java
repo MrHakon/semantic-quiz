@@ -9,7 +9,7 @@ import java.util.Map;
 import com.fasterxml.jackson.core.JsonGenerationException;
 
 public class Nature extends Category {
-	
+	private String animalT = "";
 	public int quizNature() throws JsonGenerationException, IOException {
 		switch (randomInt(1, 1)) {
 		case 1:
@@ -36,21 +36,26 @@ public class Nature extends Category {
 			animalLimits.add(12178);
 			animalLimits.add(5545);
 
-			int aType = randomInt(0, animalTypes.size()-1);
-			String chosenAnimalType = animalTypes.get(aType);
 
-			System.out.println(chosenAnimalType);
+			int aType = randomInt(0, animalTypes.size()-1);
+			setAnimalT(animalTypes.get(aType));
+
+			//System.out.println("Test: " + getAnimalT());
+			//String chosenAnimalType = animalTypes.get(aType);
+
+			//System.out.println(chosenAnimalType);
 
 			String animalTypeQuery = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
 					"\n" +
 					"SELECT ?name ?type WHERE {\n" +
-					"\t?name rdf:type dbo:" + chosenAnimalType + " .\n" +
+					"\t?name rdf:type dbo:" + getAnimalT() + " .\n" +
 					"}\n" +
 					"OFFSET " + randomInt(0, animalLimits.get(aType))+ "\n" +
 					"LIMIT 4";
 
 			List<Map> animalTypeList = sparqlList(animalTypeQuery, dbPediaService, prefix);
-			System.out.println(animalTypeList.toString());
+			generateQuestion(animalTypeList, "", 1);
+			//System.out.println(animalTypeList.toString());
 			/*
 			// returns a list of mammals
 			String mammalQuery = "SELECT ?name WHERE {" + 
@@ -102,8 +107,17 @@ public class Nature extends Category {
 		int max = dataList.size()-1;
 
 		// generates a question for animals: Which type of animal is this?
-
+		// get animaltype by using the getAnimalT()-method.
+		System.out.println("DataList-test: " + cleanUp(dataList.get(0).get("name").toString()));
 
 		return 0;
+	}
+
+	public void setAnimalT(String animalT) {
+		this.animalT = animalT;
+	}
+
+	public String getAnimalT() {
+		return animalT;
 	}
 }

@@ -35,7 +35,8 @@ public class MainClass {
 		while (!donePlaying) {
 			userChoice = random.nextInt(3) + 1;
 			int result = 0;
-			
+
+			// Note: change this to choose category (currently only '1' is implemented)
 			switch (2) {
 			case 1:
 				Geography geographyObj = new Geography();

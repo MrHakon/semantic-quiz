@@ -10,6 +10,17 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 
 public class Nature extends Category {
 	private String animalT = "";
+
+	public void setAnimalTypes(String input) {
+		this.animalTypes.add(input);
+	}
+
+	public ArrayList<String> getAnimalTypes() {
+		return animalTypes;
+	}
+
+	ArrayList<String> animalTypes = new ArrayList<>();
+
 	public int quizNature() throws JsonGenerationException, IOException {
 		switch (randomInt(1, 1)) {
 		case 1:
@@ -18,14 +29,14 @@ public class Nature extends Category {
 			randString = Integer.toString(rand);
 
 			// array of types of animals
-			ArrayList<String> animalTypes = new ArrayList<>();
-			animalTypes.add("Amphibian");
-			animalTypes.add("Arachnid");
-			animalTypes.add("Bird");
-			animalTypes.add("Fish");
-			animalTypes.add("Insect");
-			animalTypes.add("Mammal");
-			animalTypes.add("Reptile");
+			setAnimalTypes("Amphibian");
+			setAnimalTypes("Arachnid");
+			setAnimalTypes("Bird");
+			setAnimalTypes("Bird");
+			setAnimalTypes("Fish");
+			setAnimalTypes("Insect");
+			setAnimalTypes("Mammal");
+			setAnimalTypes("Reptile");
 
 			ArrayList<Integer> animalLimits = new ArrayList<>();
 			animalLimits.add(3587);
@@ -37,7 +48,9 @@ public class Nature extends Category {
 			animalLimits.add(5545);
 
 
-			int aType = randomInt(0, animalTypes.size()-1);
+
+			//int aType = randomInt(0, animalTypes.size()-1);
+			int aType = randomInt(0, getAnimalTypes().size()-2);
 			setAnimalT(animalTypes.get(aType));
 
 			//System.out.println("Test: " + getAnimalT());
@@ -54,7 +67,7 @@ public class Nature extends Category {
 					"LIMIT 4";
 
 			List<Map> animalTypeList = sparqlList(animalTypeQuery, dbPediaService, prefix);
-			generateQuestion(animalTypeList, "", 1);
+			generateQuestion(animalTypeList, "animal type", 1);
 			//System.out.println(animalTypeList.toString());
 			/*
 			// returns a list of mammals
@@ -104,11 +117,20 @@ public class Nature extends Category {
 		String correctA = "";
 		String correctNum = "";
 
+		String alt1 = "";
+
 		int max = dataList.size()-1;
 
 		// generates a question for animals: Which type of animal is this?
 		// get animaltype by using the getAnimalT()-method.
-		System.out.println("DataList-test: " + cleanUp(dataList.get(0).get("name").toString()));
+		//System.out.println("DataList-test: " + cleanUp(dataList.get(0).get("name").toString()));
+		if (question.equals("animal type")){
+			alt1 = cleanUp(dataList.get(0).get("name").toString());
+
+			// asks the question
+			System.out.println("Which type of animal is a " + alt1 + "?\n");
+		}
+
 
 		return 0;
 	}
@@ -120,4 +142,23 @@ public class Nature extends Category {
 	public String getAnimalT() {
 		return animalT;
 	}
+
+	/*
+	/** Prints one of the supported lists. Can be used for hints.
+	 * @param requestedList
+	 * 				The list that should be printed
+	 * @param start
+	 * 				The starting index of the list
+	 * @param end
+	 * 				The ending index of the list
+	 * */
+	/*public static void printList(String requestedList, int start, int end) {
+		if (requestedList == "animal types" && start >= 0 && end < animalTypes.size()){
+			for (int i = start; i < end; i++){
+				System.out.println(cleanUp(animalTypes.get(i).toString()));
+
+			}
+			System.out.println("intertupt");
+		}
+	}*/
 }

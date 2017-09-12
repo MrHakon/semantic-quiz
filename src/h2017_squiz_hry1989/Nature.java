@@ -1,21 +1,19 @@
 package h2017_squiz_hry1989;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 
 public class Nature extends Category {
 	private String animalT = "";
 
-	public void setAnimalTypes(String input) {
+	private void setAnimalTypes(String input) {
 		this.animalTypes.add(input);
 	}
 
-	public ArrayList<String> getAnimalTypes() {
+	private ArrayList<String> getAnimalTypes() {
 		return animalTypes;
 	}
 
@@ -32,7 +30,6 @@ public class Nature extends Category {
 			setAnimalTypes("Amphibian");
 			setAnimalTypes("Arachnid");
 			setAnimalTypes("Bird");
-			setAnimalTypes("Bird");
 			setAnimalTypes("Fish");
 			setAnimalTypes("Insect");
 			setAnimalTypes("Mammal");
@@ -47,16 +44,8 @@ public class Nature extends Category {
 			animalLimits.add(12178);
 			animalLimits.add(5545);
 
-
-
-			//int aType = randomInt(0, animalTypes.size()-1);
 			int aType = randomInt(0, getAnimalTypes().size()-2);
 			setAnimalT(animalTypes.get(aType));
-
-			//System.out.println("Test: " + getAnimalT());
-			//String chosenAnimalType = animalTypes.get(aType);
-
-			//System.out.println(chosenAnimalType);
 
 			String animalTypeQuery = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" +
 					"\n" +
@@ -67,20 +56,8 @@ public class Nature extends Category {
 					"LIMIT 4";
 
 			List<Map> animalTypeList = sparqlList(animalTypeQuery, dbPediaService, prefix);
-			generateQuestion(animalTypeList, "animal type", 1);
-			//System.out.println(animalTypeList.toString());
-			/*
-			// returns a list of mammals
-			String mammalQuery = "SELECT ?name WHERE {" + 
-					"?name rdf:type dbo:Mammal . "
-					/*"?name rdf:type umbel-rc:Mammal ."*/ //+
-					/*"}" +
-					"OFFSET " + randString + 
-					" LIMIT " + sparqlLimit;
-			List<Map> mammalList = sparqlList(mammalQuery, dbPediaService, prefix);
+			return generateQuestion(animalTypeList, "animal type", 1);
 
-			System.out.println(mammalList.toString());*/
-			break;
 		case 2: 
 			System.out.println("Not yet implemented");
 			break;
@@ -107,58 +84,73 @@ public class Nature extends Category {
 	 * @return An int, depending on the user's answer: correct = 1, wrong = 0, error =-1, if
 	 * hints are used and the answer is correct: 2
 	 */
-	public static int generateQuestion(List<Map> dataList, String question, int chosenQ) {
+	private int generateQuestion(List<Map> dataList, String question, int chosenQ) {
 		if (dataList.size() < 2){
 			System.out.println("Not enough data to generate question. \nTry something else!");
 			return -1;
 		}
 
-		String userA = "";
-		String correctA = "";
-		String correctNum = "";
+		String userA;
+		String correctNum;
 
-		String alt1 = "";
-
-		int max = dataList.size()-1;
+		String alt1;
+		int altNum1;
 
 		// generates a question for animals: Which type of animal is this?
 		// get animaltype by using the getAnimalT()-method.
-		//System.out.println("DataList-test: " + cleanUp(dataList.get(0).get("name").toString()));
 		if (question.equals("animal type")){
+			// the correct answer
 			alt1 = cleanUp(dataList.get(0).get("name").toString());
 
 			// asks the question
 			System.out.println("Which type of animal is a " + alt1 + "?\n");
+
+			ArrayList<String> stringAlts = new ArrayList<>();
+			stringAlts.add(getAnimalT());
+
+			// removes the correct answer from the remaining alternatives
+			if (animalTypes.contains(getAnimalT())){
+				animalTypes.remove(getAnimalT());
+			}
+
+			altNum1 = randomInt(0, animalTypes.size()-1);
+
+			stringAlts.add(animalTypes.get(altNum1));
+
+			// shuffles the alternatives to create randomness
+			Collections.shuffle(stringAlts);
+
+			// prints out the different alternatives
+			System.out.println("1. " + stringAlts.get(0) + "\n2. " + stringAlts.get(1));
+
+			// receives and answer
+			userA = scanner.nextLine();
+
+			if (getAnimalT().toLowerCase().equals(stringAlts.get(0).toLowerCase())){
+				correctNum = "1";
+			}
+			else {
+				correctNum = "2";
+			}
+
+			// checks to see if the answer is correct
+			if (userA.toLowerCase().equals(getAnimalT().toLowerCase()) || userA.equals(correctNum)){
+				System.out.println(generateFeedback("correct"));
+				return 1;
+			}
+			else {
+				System.out.println(generateFeedback("wrong"));
+				return -1;
+			}
 		}
-
-
 		return 0;
 	}
 
-	public void setAnimalT(String animalT) {
+	private void setAnimalT(String animalT) {
 		this.animalT = animalT;
 	}
 
-	public String getAnimalT() {
+	private String getAnimalT() {
 		return animalT;
 	}
-
-	/*
-	/** Prints one of the supported lists. Can be used for hints.
-	 * @param requestedList
-	 * 				The list that should be printed
-	 * @param start
-	 * 				The starting index of the list
-	 * @param end
-	 * 				The ending index of the list
-	 * */
-	/*public static void printList(String requestedList, int start, int end) {
-		if (requestedList == "animal types" && start >= 0 && end < animalTypes.size()){
-			for (int i = start; i < end; i++){
-				System.out.println(cleanUp(animalTypes.get(i).toString()));
-
-			}
-			System.out.println("intertupt");
-		}
-	}*/
 }

@@ -33,11 +33,11 @@ public class MainClass {
 		
 		// picks a random category and runs as long as needed
 		while (!donePlaying) {
-			userChoice = random.nextInt(3) + 1;
+			userChoice = random.nextInt(2)+1;
 			int result = 0;
 
 			// Note: change this to choose category (currently only '1' is implemented)
-			switch (2) {
+			switch (userChoice) {
 			case 1:
 				Geography geographyObj = new Geography();
 				result = geographyObj.quizGeography();
@@ -56,11 +56,9 @@ public class MainClass {
 				break;
 				
 			case 2:
-				System.out.println("Category two: Nature");
 				Nature natureObj = new Nature();
 				result = natureObj.quizNature();
-				
-				// insert obj.quiz-method here
+
 				if (result == 1) {
 					score = score + 1;
 					pointsystem = pointsystem + 10;
@@ -70,7 +68,7 @@ public class MainClass {
 					pointsystem = pointsystem + 5;
 				}
 				numOfQuestions = numOfQuestions + 1;
-				System.out.println("You have answered " + score + " out of " + numOfQuestions + " questions correctly");
+				System.out.println("You have answered " + score + " out of " + numOfQuestions + " questions correctly\n");
 				counter = counter - 1 ;
 				break;
 				

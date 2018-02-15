@@ -7,45 +7,39 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 
-public class Geography extends Category {
-	public void work() {
-		System.out.println(generateFeedback("correct"));
-	}
-
-	public int quizGeography() throws JsonGenerationException, IOException {
+public class Geography extends Category implements ICategory {
+	
+	@Override
+	public int categoryQuiz() throws JsonGenerationException, IOException {
 		switch (randomInt(1, 2)) {
 		case 1:
 			// the number of results return by the query
-			sparqlLimit = 10;
+			setSparqlLimit(10);
 			// random number that adds offset to the resultset
-			rand = randomInt(0, 82 - sparqlLimit);
-			randString = Integer.toString(rand);
+			setRand(randomInt(0, 82 - getSparqlLimit()));
 
 			String countryQuestion = "SELECT ?name ?popDensity ?popEst WHERE {"
 					+ "?country dct:subject dbc:Countries_in_Europe ." + "?country rdfs:label ?name ."
 					+ "?country dbo:populationDensity ?popDensity ." + "?country dbo:populationTotal ?popEst ."
-					+ "FILTER (lang(?name) = 'en')}" + "OFFSET " + randString + "LIMIT 20";
+					+ "FILTER (lang(?name) = 'en')}" + "OFFSET " + getRand() + "LIMIT 20";
 
 			// returns a JSON-object with the results from the SPARQL-query
-			List<Map> countryList = sparqlList(countryQuestion, dbPediaService, prefix);
+			List<Map> countryList = sparqlList(countryQuestion, getDbPediaService(), getPrefix());
 
 			return generateQuestion(countryList, "country", randomInt(1, 2));
 
 		case 2:
 			// the number of results returned from the query
-			sparqlLimit = 10;
+			setSparqlLimit(10);
 			// random number to add random offset to the resultset
-			rand = randomInt(0, 675 - sparqlLimit);
-
-			sparqlLimString = Integer.toString(sparqlLimit);
-			randString = Integer.toString(rand);
+			setRand(randomInt(0, 675 - getSparqlLimit()));
 
 			String cityQ = "SELECT ?name ?population WHERE { " + "?city dbo:country dbr:Norway ."
 					+ "?city rdfs:label ?name ." + "?city dbo:populationTotal ?population ."
-					+ "FILTER (lang(?name) = 'en')." + "FILTER (?population > 0) .} OFFSET " + randString + " LIMIT "
-					+ sparqlLimString;
+					+ "FILTER (lang(?name) = 'en')." + "FILTER (?population > 0) .} OFFSET " + getRand() + " LIMIT "
+					+ getSparqlLimit();
 
-			List<Map> cityList = sparqlList(cityQ, dbPediaService, prefix);
+			List<Map> cityList = sparqlList(cityQ, getDbPediaService(), getPrefix());
 
 			if (generateQuestion(cityList, "city", 1) == 1) {
 				return 1;
@@ -75,7 +69,8 @@ public class Geography extends Category {
 	 * @return An int, depending on the user's answer: correct = 1, wrong = 0, error =-1, if
 	 * hints are used and the answer is correct: 2
 	 */
-	public static int generateQuestion(List<Map> dataList, String question, int chosenQ) {
+	@Override
+	public int generateQuestion(List<Map> dataList, String question, int chosenQ) {
 		// checks if the datalist has more than one element
 		if (dataList.size() < 2) {
 			System.out.println("Not enough data to generate question.\nTry something else!");
@@ -279,7 +274,7 @@ public class Geography extends Category {
 				}
 
 			default:
-				System.out.println("");
+				System.out.println("Something went wrong");
 				break;
 			}
 

@@ -24,10 +24,10 @@ abstract public class Category {
 	static Scanner scanner = new Scanner(System.in);
 	
 	// sparql-endpoints to run queries against
-	String dbPediaService = "http://dbpedia.org/sparql";
+	private String dbPediaService = "http://dbpedia.org/sparql";
 	
 	// specifically prefix for dbpedia
-	String prefix = "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
+	private String prefix = "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
 			+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"
 			+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
 			+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
@@ -39,21 +39,37 @@ abstract public class Category {
 			+ "PREFIX umbel-rc: <http://umbel.org/umbel/rc/>";
 	
 	boolean answer = false;
-	int actualAnswer;
-	int userAnswer;
+	int actualAnswer, userAnswer;
 	static Random randomGen = new Random();
 	
-	int sparqlLimit = 10;
-	int rand = 0;
-	String sparqlLimString = "0";
-	String randString = "0";
+	private int sparqlLimit = 10;
+	
+	public int getSparqlLimit() {
+		return sparqlLimit;
+	}
+
+	public void setSparqlLimit(int sparqlLimit) {
+		this.sparqlLimit = sparqlLimit;
+	}
+
+	public int getRand() {
+		return rand;
+	}
+
+	public void setRand(int rand) {
+		this.rand = rand;
+	}
+
+	private int rand = 0;
+	//String sparqlLimString = "0";
+	//String randString = "0";
 	
 	/**
-	 * @return Returnerer et tilfeldig tall
+	 * @return Generates a random number with inclusive min and max values
 	 * @param min
-	 *            Minste mulige verdi som kan bli returnert
+	 *            The lowest value that is included
 	 * @param max
-	 *            Høyeste verdi som kan bli returnert
+	 *            The greatest value that is included
 	 */
 	public static int randomInt(int min, int max) {
 		max = max + 1;
@@ -222,5 +238,21 @@ abstract public class Category {
 			}
 		}
 		return feedback + "\n";
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
+	public String getDbPediaService() {
+		return dbPediaService;
+	}
+
+	public void setDbPediaService(String dbPediaService) {
+		this.dbPediaService = dbPediaService;
 	}
 }

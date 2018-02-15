@@ -1,12 +1,11 @@
 package h2017_squiz_hry1989;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 
-public class Nature extends Category {
+public class Nature extends Category implements ICategory {
 	private String animalT = "";
 
 	private void setAnimalTypes(String input) {
@@ -19,29 +18,29 @@ public class Nature extends Category {
 
 	ArrayList<String> animalTypes = new ArrayList<>();
 
-	public int quizNature() throws JsonGenerationException, IOException {
+	@Override
+	public int categoryQuiz() throws JsonGenerationException, IOException {
 		switch (randomInt(1, 1)) {
 		case 1:
-			sparqlLimit = 10;
-			rand = randomInt(0, 6115-sparqlLimit);
-			randString = Integer.toString(rand);
+			setSparqlLimit(4);
+			setRand(randomInt(0, 6115-getSparqlLimit()));
+			//randString = Integer.toString(rand);
 
-			// array of types of animals
-			setAnimalTypes("Amphibian");
-			setAnimalTypes("Arachnid");
-			setAnimalTypes("Bird");
-			setAnimalTypes("Fish");
-			setAnimalTypes("Insect");
-			setAnimalTypes("Mammal");
-			setAnimalTypes("Reptile");
-
+			// array of types of animals and limits
 			ArrayList<Integer> animalLimits = new ArrayList<>();
+			setAnimalTypes("Amphibian");
 			animalLimits.add(3587);
+			setAnimalTypes("Arachnid");
 			animalLimits.add(4152);
+			setAnimalTypes("Bird");
 			animalLimits.add(12941);
+			setAnimalTypes("Fish");
 			animalLimits.add(18752);
+			setAnimalTypes("Insect");
 			animalLimits.add(133586);
+			setAnimalTypes("Mammal");
 			animalLimits.add(12178);
+			setAnimalTypes("Reptile");
 			animalLimits.add(5545);
 
 			int aType = randomInt(0, getAnimalTypes().size()-2);
@@ -53,9 +52,9 @@ public class Nature extends Category {
 					"\t?name rdf:type dbo:" + getAnimalT() + " .\n" +
 					"}\n" +
 					"OFFSET " + randomInt(0, animalLimits.get(aType))+ "\n" +
-					"LIMIT 4";
+					"LIMIT " + getSparqlLimit();
 
-			List<Map> animalTypeList = sparqlList(animalTypeQuery, dbPediaService, prefix);
+			List<Map> animalTypeList = sparqlList(animalTypeQuery, getDbPediaService(), getPrefix());
 			return generateQuestion(animalTypeList, "animal type", 1);
 
 		case 2: 
@@ -63,7 +62,7 @@ public class Nature extends Category {
 			break;
 
 		default:
-			System.out.println("");
+			System.out.println("Something went wrong");
 			break;
 		}
 		return 0;
@@ -84,7 +83,8 @@ public class Nature extends Category {
 	 * @return An int, depending on the user's answer: correct = 1, wrong = 0, error =-1, if
 	 * hints are used and the answer is correct: 2
 	 */
-	private int generateQuestion(List<Map> dataList, String question, int chosenQ) {
+	@Override
+	public int generateQuestion(List<Map> dataList, String question, int chosenQ) {
 		if (dataList.size() < 2){
 			System.out.println("Not enough data to generate question. \nTry something else!");
 			return -1;

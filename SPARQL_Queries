@@ -1,6 +1,8 @@
 SPARQL-queries
 
 DbPedia-queries:
+http://dbpedia.org/snorql/
+dbpedia.org/page/Norway
 
 Finds name of a mountain, the elevation of that mountain and the name of the person
 whom first climbed it (descending order - height can be set to random):
